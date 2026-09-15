@@ -1,30 +1,279 @@
-# Mobile 10 — Reaproveitamento de Componentes em Flutter
+# 📱 Mobile 10 - Reaproveitamento de Componentes no Flutter
 
-> 🚧 **Projeto em desenvolvimento**
+Projeto desenvolvido durante as aulas de **Desenvolvimento Mobile**, com foco no reaproveitamento de componentes utilizando **Flutter e Dart**.
 
-Projeto desenvolvido em aula para praticar o **reaproveitamento de componentes no Flutter**, evitando repetir estruturas de interface e deixando o código mais organizado e reutilizável.
-
-A aplicação utiliza componentes personalizados para campos de texto e botões.
+O projeto apresenta uma tela de cadastro de produtos construída com componentes reutilizáveis para campos de texto e botões, evitando repetição de código e deixando a aplicação mais organizada.
 
 ---
 
-## Objetivo da aula
+## 🎯 Objetivo
 
-Praticar conceitos como:
+Praticar a criação e reutilização de componentes no Flutter.
 
-- reutilização de widgets;
-- criação de funções que retornam widgets;
-- separação de componentes em arquivos;
-- passagem de parâmetros;
-- `TextField`;
-- `ElevatedButton`;
-- `VoidCallback`;
-- organização da pasta `lib`;
-- boas práticas de componentização.
+Durante o desenvolvimento foram trabalhados conceitos como:
+
+- criação de componentes reutilizáveis;
+- organização de widgets em arquivos separados;
+- utilização de `TextEditingController`;
+- passagem de parâmetros para componentes;
+- utilização de funções como callback;
+- leitura dos valores digitados em `TextField`;
+- conversão de dados com `double.tryParse()` e `int.tryParse()`;
+- cálculo utilizando valores informados pelo usuário;
+- limpeza dos campos;
+- campo de senha com `obscureText`;
+- organização básica de um projeto Flutter.
 
 ---
 
-## Tecnologias utilizadas
+## 🛒 Cadastro de Produtos
+
+A aplicação possui uma tela para cadastro de produtos contendo os seguintes campos:
+
+- Nome do produto;
+- Preço;
+- Quantidade em estoque;
+- Categoria;
+- Código de acesso.
+
+O campo **Código de acesso** utiliza:
+
+```dart
+obscureText: senha
+```
+
+permitindo reutilizar o mesmo componente de campo de texto e ativar o comportamento de senha somente quando necessário.
+
+---
+
+## 🧩 Reaproveitamento de Componentes
+
+Um dos principais objetivos do projeto foi evitar a repetição de código.
+
+Foram criados componentes separados para os campos de texto e botões.
+
+### Campo de texto reutilizável
+
+O componente recebe informações como:
+
+```dart
+meuTextField(
+  "Nome do Produto",
+  Icons.shopping_bag,
+  nomeController,
+)
+```
+
+O mesmo componente pode ser utilizado para todos os campos da aplicação.
+
+### Botão reutilizável
+
+Também foi criado um componente para os botões:
+
+```dart
+meuBotao(
+  "Calcular Total",
+  const Color.fromARGB(255, 192, 245, 105),
+  calcularTotal,
+)
+```
+
+O componente recebe:
+
+- texto;
+- cor;
+- função executada ao clicar.
+
+Dessa forma, o mesmo widget pode ser utilizado para diferentes ações.
+
+---
+
+## 🎮 TextEditingController
+
+Para acessar os valores digitados nos campos foram utilizados objetos `TextEditingController`.
+
+Exemplo:
+
+```dart
+final TextEditingController precoController =
+    TextEditingController();
+```
+
+O valor digitado pode ser acessado através de:
+
+```dart
+precoController.text
+```
+
+Os controllers também permitem limpar os campos utilizando:
+
+```dart
+precoController.clear();
+```
+
+---
+
+## 🧮 Calcular Total
+
+O botão **Calcular Total** utiliza o preço do produto e a quantidade disponível em estoque.
+
+A fórmula utilizada é:
+
+```text
+Total = Preço × Quantidade
+```
+
+No código:
+
+```dart
+double preco =
+    double.tryParse(precoController.text) ?? 0;
+
+int quantidade =
+    int.tryParse(quantidadeController.text) ?? 0;
+
+double total = preco * quantidade;
+```
+
+Exemplo:
+
+```text
+Preço: R$ 25,00
+Quantidade: 4
+
+Total: R$ 100,00
+```
+
+---
+
+## 🧹 Limpar Campos
+
+O botão **Limpar** utiliza os controllers para apagar os valores digitados.
+
+Exemplo:
+
+```dart
+void limpar() {
+  nomeController.clear();
+  precoController.clear();
+  quantidadeController.clear();
+  categoriaController.clear();
+  codigoController.clear();
+}
+```
+
+---
+
+## 💾 Salvar Produto
+
+O botão **Salvar** realiza a leitura das informações preenchidas no formulário.
+
+São recuperados os valores de:
+
+```text
+Nome
+Preço
+Quantidade
+Categoria
+Código de acesso
+```
+
+Nesta etapa do projeto, os dados são utilizados para demonstrar a captura das informações digitadas pelo usuário.
+
+---
+
+## 📂 Estrutura do Projeto
+
+A aplicação foi organizada separando os componentes reutilizáveis da tela principal.
+
+```text
+reaproveitamento_componentes/
+│
+├── lib/
+│   ├── main.dart
+│   │
+│   └── widgets/
+│       ├── botoes.dart
+│       └── campo_texto.dart
+│
+├── android/
+├── ios/
+├── web/
+├── windows/
+├── linux/
+├── macos/
+│
+├── pubspec.yaml
+└── pubspec.lock
+```
+
+### `main.dart`
+
+Responsável pela tela principal, controllers e funções da aplicação.
+
+### `widgets/campo_texto.dart`
+
+Componente reutilizável responsável pelos campos `TextField`.
+
+### `widgets/botoes.dart`
+
+Componente reutilizável responsável pelos botões da aplicação.
+
+---
+
+## 🧠 Conceitos praticados
+
+Neste projeto foram praticados:
+
+```text
+Flutter
+├── StatelessWidget
+├── Scaffold
+├── AppBar
+├── Column
+├── Padding
+├── TextField
+│   └── TextEditingController
+├── InputDecoration
+├── ElevatedButton
+├── Callbacks
+└── Componentes reutilizáveis
+
+Dart
+├── Funções
+├── Parâmetros
+├── String
+├── int
+├── double
+├── int.tryParse()
+├── double.tryParse()
+└── Interpolação de Strings
+```
+
+---
+
+## 🚀 Evolução do projeto
+
+### Aula inicial
+
+- Criação do projeto Flutter;
+- Criação da tela de cadastro;
+- Estudo sobre reaproveitamento de componentes;
+- Separação dos componentes em arquivos.
+
+### Evolução do exercício
+
+- Implementação de `TextEditingController`;
+- Integração dos controllers com componentes reutilizáveis;
+- Implementação do cálculo de preço × quantidade;
+- Implementação do botão Limpar;
+- Implementação do botão Salvar;
+- Utilização de campo de senha;
+- Melhoria da organização e reutilização do código.
+
+---
+
+## 🛠️ Tecnologias
 
 - Flutter
 - Dart
@@ -34,195 +283,18 @@ Praticar conceitos como:
 
 ---
 
-## Estrutura principal
+## ▶️ Executando o projeto
 
-```text
-reaproveitamento_componentes/
-└── lib/
-    ├── main.dart
-    └── widgets/
-        ├── botoes.dart
-        └── campo_texto.dart
-```
-
----
-
-## Reaproveitamento de componentes
-
-Ao invés de repetir o mesmo código várias vezes no `main.dart`, foram criados componentes reutilizáveis.
-
-### Campo de texto
-
-Arquivo:
-
-```text
-lib/widgets/campo_texto.dart
-```
-
-Função:
-
-```dart
-meuTextField()
-```
-
-Ela recebe parâmetros como:
-
-```text
-texto
-icone
-senha
-```
-
-Exemplo de uso:
-
-```dart
-meuTextField(
-  "Código de Acesso",
-  Icons.lock,
-  senha: true,
-)
-```
-
-O parâmetro `senha` permite ativar:
-
-```dart
-obscureText: true
-```
-
-para ocultar o conteúdo digitado.
-
----
-
-## Botões reutilizáveis
-
-Arquivo:
-
-```text
-lib/widgets/botoes.dart
-```
-
-Função:
-
-```dart
-meuBotao()
-```
-
-Ela recebe:
-
-```text
-texto
-cor
-funcao
-```
-
-Exemplo:
-
-```dart
-meuBotao(
-  "Salvar",
-  Colors.blue,
-  enviar,
-)
-```
-
-O callback é recebido através de:
-
-```dart
-VoidCallback
-```
-
-permitindo reutilizar o mesmo botão com diferentes ações.
-
----
-
-## Interface atual
-
-A tela possui campos para:
-
-- Nome do Produto
-- Preço
-- Quantidade em Estoque
-- Categoria
-- Código de Acesso
-
-Também possui os botões:
-
-- Calcular Total
-- Limpar
-- Salvar
-
----
-
-## Fluxo de reutilização
-
-```text
-main.dart
-   ↓
-widgets/
-   ├── meuTextField()
-   └── meuBotao()
-   ↓
-Interface Flutter
-```
-
-A ideia é evitar duplicação de código e manter cada componente com uma responsabilidade específica.
-
----
-
-## Exemplo
-
-Sem reaproveitamento:
-
-```dart
-TextField(...)
-TextField(...)
-TextField(...)
-```
-
-Com reaproveitamento:
-
-```dart
-meuTextField("Nome do Produto", Icons.person);
-meuTextField("Preço", Icons.email);
-meuTextField("Categoria", Icons.location_city);
-```
-
-O mesmo conceito é aplicado aos botões.
-
----
-
-## Status do projeto
-
-> 🚧 **Em desenvolvimento**
-
-### Implementado
-
-- estrutura inicial Flutter;
-- organização da pasta `widgets`;
-- componente reutilizável para `TextField`;
-- componente reutilizável para `ElevatedButton`;
-- passagem de texto, cor, ícone e função por parâmetro;
-- campo opcional para senha;
-- tela inicial com formulário;
-- funções de ação para os botões.
-
-### Ainda falta
-
-- concluir a lógica das ações;
-- finalizar o cálculo;
-- implementar o botão de limpeza;
-- implementar o salvamento;
-- revisar a interface;
-- realizar os testes finais.
-
----
-
-## Como executar
-
-Entre na pasta do projeto:
+Clone o repositório:
 
 ```bash
-cd reaproveitamento_componentes
+git clone https://github.com/Luanlhp777/mobile10.git
+```
+
+Entre no projeto Flutter:
+
+```bash
+cd mobile10/reaproveitamento_componentes
 ```
 
 Instale as dependências:
@@ -239,25 +311,18 @@ flutter run
 
 ---
 
-## Conceitos praticados
+## 📚 Contexto acadêmico
 
-- Flutter
-- Dart
-- Widgets
-- Componentização
-- Reutilização de código
-- `TextField`
-- `ElevatedButton`
-- `VoidCallback`
-- Parâmetros opcionais
-- Material Design
-- Organização de arquivos
-- Separação de responsabilidades
+Projeto desenvolvido para fins de estudo durante a disciplina de **Desenvolvimento Mobile**, praticando conceitos fundamentais de Flutter e Dart.
+
+O foco desta atividade foi compreender como o reaproveitamento de componentes reduz a duplicação de código e facilita a manutenção da aplicação.
 
 ---
 
-## Autor
+## 👨‍💻 Autor
 
 **Luan Araujo**
 
-Projeto acadêmico desenvolvido para prática de **Flutter, Dart e reaproveitamento de componentes**.
+Estudante de Desenvolvimento de Sistemas.
+
+GitHub: `Luanlhp777`
